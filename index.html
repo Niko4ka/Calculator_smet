@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Калькулятор смет</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=1200px">
+    <link rel="stylesheet" href="css/main.css">
+    <!-- Текст JS -->
+    <script type="text/javascript">
+    	var total = 0;
+    	function cost(ths) {
+    		 var tr = ths.parentNode.parentNode;
+    		 var number = parseFloat(tr.getElementsByTagName("td")[1].firstChild.value);
+    		 var base = tr.getElementsByTagName("td")[2].innerHTML;
+    		 var hours = tr.getElementsByTagName("td")[3];
+    		 var nadbavka = tr.getElementsByTagName("td")[4].innerHTML;
+    		 if (nadbavka != 0) {
+    		 	hours.innerHTML = number*base*nadbavka
+    		 } else {
+    		 	hours.innerHTML = number*base
+    		 };
+    		 
+    		 var cost = tr.getElementsByTagName("td")[8];
+    		 var rate = parseFloat(tr.getElementsByTagName("td")[7].firstChild.value);
+    		 var mod = parseFloat(tr.getElementsByTagName("td")[5].firstChild.value);
+    		 cost.innerHTML = hours.innerHTML*rate*mod; 
+
+    		 var proverka = hours.innerHTML;
+
+    		 // Обнуляет значение часов, если значение NaN
+
+    		 if (proverka === "NaN") {
+    		 	hours.innerHTML = "";
+    		 	cost.innerHTML = "";
+    		 }
+    	}
+
+    	function sum() {
+
+			var sum = 0;
+    		var table = document.getElementById('table');
+    		var trArr = table.getElementsByTagName('tr');
+    		for (var i = 2; i < trArr.length; i++) {
+    			var tableCell = trArr[i].getElementsByTagName("td")[8];
+    			if (tableCell === undefined || tableCell.innerHTML == "") {} else {
+    				sum += parseFloat(tableCell.innerHTML);
+    			}	
+    		}
+
+    		sum += "";
+    		sum = new Array(4 - sum.length % 3).join("U") + sum;
+    		sumWithSpace = sum.replace(/([0-9U]{3})/g, "$1 ").replace(/U/g, "");
+
+    		var total = document.getElementById('total');
+    		total.innerHTML = sumWithSpace + " р.";
+
+    		var foo = document.getElementById('management');
+    		var bar = foo.getElementsByTagName("td")[3];
+    		var manSum = 0;
+
+    		for (var i = 2; i < trArr.length-2; i++) {
+    			var ex = trArr[i].getElementsByTagName("td")[3];
+    			if (ex === undefined || ex.innerHTML == "") {} else {
+    				manSum += parseFloat(ex.innerHTML);
+    				console.log(manSum);
+    			}	
+    		}
+
+    		bar.innerHTML = Math.round(manSum*0.1);
+    		td1 = document.getElementsByName("management-mod")[0].value;
+    		td2 = document.getElementsByName("management-rate")[0].value;
+    		td3 = foo.getElementsByClassName("td-cost")[0];
+    		td3.innerHTML = td1 * td2 * parseFloat(bar.innerHTML);
+
+
+    	}
+
+
+
+    </script>
+    <!-- конец Текста JS -->
+</head>
+<body>
+	<div class="container">
+		<table id="table">
+			<caption>Смета</caption>
+			<tr>
+				<th>Название</th>
+				<th>Шт</th>
+				<th>База</th>
+				<th class="th-hour">Час</th>
+				<th>Надбавка</th>
+				<th>Модификатор</th>
+				<th>Исполнитель</th>
+				<th>Рейт</th>
+				<th>Кост</th>
+				<th>Комментарии</th>
+			</tr>
+			<tr>
+				<td class="td-headline">Дизайн</td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Дизайн главной страницы (не более 2 версий) / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>18</td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Арт-дир</td>
+				<td><input type="text" name="" value="2200" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Дизайн главной страницы - адаптив (не более 2 версий) / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>18</td>
+				<td class="td-hours"></td>
+				<td>1.25</td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Арт-дир</td>
+				<td><input type="text" name="" value="2200" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr class="empty"></tr>
+			<tr>
+				<td class="td-first-col">Дизайн второстепенных экранов (уникальные страницы) (не более 2 версий) / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>10</td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Арт-дир</td>
+				<td><input type="text" name="" value="2200" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Дизайн второстепенных экранов - адаптив (уникальные страницы) (не более 2 версий) / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>10</td>
+				<td class="td-hours"></td>
+				<td>1.25</td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Арт-дир</td>
+				<td><input type="text" name="" value="2200" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr class="empty"></tr>
+			<tr>
+				<td class="td-first-col">Дизайн второстепенных экранов (не более 2 версий) / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>8</td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Диз</td>
+				<td><input type="text" name="" value="1100" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Дизайн второстепенных экранов - адаптив (не более 2 версий) / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>8</td>
+				<td class="td-hours"></td>
+				<td>1.25</td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Диз</td>
+				<td><input type="text" name="" value="1100" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr class="empty"></tr>
+			<tr>
+				<td class="td-first-col">Выкуп и обработка изображений для посадочной страницы (до 5 шт)</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>2</td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Диз</td>
+				<td><input type="text" name="" value="1100" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr class="empty"></tr>
+			<tr>
+				<td class="td-headline">Верстка</td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Верстка главной страницы и написание js-скриптов / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>18</td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Верстак</td>
+				<td><input type="text" name="" value="1250" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Верстка главной страницы и написание js-скриптов (адаптивная верстка) / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>18</td>
+				<td class="td-hours"></td>
+				<td>1.5</td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Верстак</td>
+				<td><input type="text" name="" value="1250" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr class="empty"></tr>
+			<tr>
+				<td class="td-first-col">Верстка второстепенных экранов (уникальные страницы) / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>10</td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Верстак</td>
+				<td><input type="text" name="" value="1250" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Верстка второстепенных экранов (уникальные страницы) (адаптивная верстка) / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>10</td>
+				<td class="td-hours"></td>
+				<td>1.5</td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Верстак</td>
+				<td><input type="text" name="" value="1250" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr class="empty"></tr>
+			<tr>
+				<td class="td-first-col">Верстка второстепенных экранов / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>8</td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Верстак</td>
+				<td><input type="text" name="" value="1250" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Верстка второстепенных экранов (адаптивная верстка) / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>8</td>
+				<td class="td-hours"></td>
+				<td>1</td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Верстак</td>
+				<td><input type="text" name="" value="1250" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr class="empty"></tr>
+			<tr>
+				<td class="td-headline">Программирование</td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Создание базового программного обеспечения для логики работы сайта:  клиентская часть / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>8</td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Бекэнд девелопер</td>
+				<td><input type="text" name="" value="1300" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Создание базового программного обеспечения для логики работы сайта:  сервер часть / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>8</td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Бекэнд девелопер</td>
+				<td><input type="text" name="" value="1300" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-first-col">Тестирование / час</td>
+				<td class="td-number"><input type="text" name="number" placeholder="0" class="number" onchange="cost(this); sum()"></td>
+				<td>8</td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="" value="1" onchange="cost(this); sum()"></td>
+				<td>Тестировщик</td>
+				<td><input type="text" name="" value="1000" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+			<tr class="empty"></tr>
+			<tr>
+				<td class="td-headline">Менеджмент</td>
+			</tr>
+			<tr id="management">
+				<td class="td-first-col">Ведение проекта (всегда 10%)</td>
+				<td class="td-number">0.1</td>
+				<td></td>
+				<td class="td-hours"></td>
+				<td></td>
+				<td><input type="text" name="management-mod" value="1" onchange="cost(this); sum()"></td>
+				<td>Менеджер проекта</td>
+				<td><input type="text" name="management-rate" value="1200" onchange="cost(this); sum()"></td>
+				<td class="td-cost"></td>
+				<td></td>
+			</tr>
+
+
+
+
+
+			<tr>
+				<td class="totalName" colspan="8">Итог:</td>
+				<td id="total"></td>
+			</tr>
+
+		</table>
+	</div>
+</body>
+</html>

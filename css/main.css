@@ -1,0 +1,72 @@
+body {
+}
+
+tr {
+	
+}
+
+th, td {
+	padding: 0.2rem 0.4rem;
+	text-align: center;
+	border: 1px #d4d4d6 solid;
+
+
+}
+
+.th-hour {
+	width: 4rem;
+}
+
+.td-headline {
+	font-weight: bold;
+	text-align: left;
+}
+
+.td-first-col {
+	text-align: left;
+}
+
+.td-cost, .number, .td-number {
+	background-color: #f9c672;
+	font-weight: bold;
+}
+
+.empty {
+	height: 1rem;
+}
+
+#total {
+	height: 2rem;
+	width: 6rem;
+	font-weight: bold;
+	font-size: 1.1rem;
+	background-color: #f9c672;
+}
+
+.totalName {
+	text-align: right;
+	border:none;
+	padding-right: 1rem;
+}
+
+#table {
+	 border-spacing: 0;
+	 border-collapse: collapse;
+
+}
+
+input[type="text"] {
+	text-align: center;
+	width: 3rem;
+	height: 1.5rem;
+	border: 0;
+}
+
+input[type="text"]:focus {
+ 	outline: none; 
+}
+
+:focus::-webkit-input-placeholder {color: transparent}
+:focus::-moz-placeholder          {color: transparent}
+:focus:-moz-placeholder           {color: transparent}
+:focus:-ms-input-placeholder      {color: transparent}
